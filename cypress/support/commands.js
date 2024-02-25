@@ -42,7 +42,7 @@ Cypress.Commands.add('SendValue', (element, value) => {
 Cypress.Commands.add('selectDropDownValue', (element, value) => {
     var timeoutVal = Cypress.config().timeoutVal
     cy.Get(element).should('be.enabled', { timeout: timeoutVal }).click({ timeout: timeoutVal })
-    cy.contains(value, { timeout: timeoutVal }).click({ timeout: timeoutVal })
+    cy.Get('li:contains(' + value + ')').click({ timeout: timeoutVal })
 })
 
 Cypress.Commands.add('Get', (element) => {
