@@ -39,10 +39,10 @@ async function setupNodeEvents(on, config) {
 module.exports = defineConfig({
   e2e: {
     specPattern: "**/*.feature",
-    baseUrl:'https://tms.az-tms-app-q1.tzhealthcare.com/tms/',
-    timeoutVal:3000000,
-    username:'tmsadmin',
-    password:'Welcome@123',
+    baseUrl: 'https://tms.az-tms-app-q1.tzhealthcare.com/tms/',
+    timeoutVal: 3000000,
+    username: 'tmsadmin',
+    password: 'Welcome@123',
     setupNodeEvents,
   },
 });
