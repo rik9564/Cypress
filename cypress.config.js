@@ -1,5 +1,6 @@
 const { defineConfig } = require("cypress");
 const webpack = require("@cypress/webpack-preprocessor");
+const fs = require('fs');
 const {
   addCucumberPreprocessorPlugin,
 } = require("@badeball/cypress-cucumber-preprocessor");
@@ -32,6 +33,19 @@ async function setupNodeEvents(on, config) {
     })
   );
 
+  // Move the previous module.exports block here
+  on("task", {
+     moveFile({ srcPath, destPath }) {
+      try {
+        fs.renameSync(srcPath, destPath);
+        return true;
+      } catch (error) {
+        console.log("Error occurred while moving the file:", error);
+        throw error;
+      }
+    },
+  });
+
   // Make sure to return the config object as it might have been modified by the plugin.
   return config;
 }
@@ -43,6 +57,7 @@ module.exports = defineConfig({
     timeoutVal: 3000000,
     username: 'tmsadmin',
     password: 'Welcome@123',
+    TMSSharedPath: '//az-tms-app-Q1.tzhealthcare.com/C$/TMSSharedFolder/TMS/EAM/Input/',
     setupNodeEvents,
   },
 });

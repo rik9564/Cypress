@@ -49,3 +49,7 @@ Cypress.Commands.add('Get', (element) => {
     var timeoutVal = Cypress.config().timeoutVal
     return cy.get(element, { timeout: timeoutVal })
 })
+
+Cypress.Commands.add('moveFile', (srcPath, destPath) => {
+    return cy.task('moveFile', { srcPath, destPath })
+})
