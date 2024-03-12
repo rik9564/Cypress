@@ -4,6 +4,7 @@ const fs = require('fs');
 const {
   addCucumberPreprocessorPlugin,
 } = require("@badeball/cypress-cucumber-preprocessor");
+//const { result } = require("cypress/types/lodash");
 
 async function setupNodeEvents(on, config) {
   // This is required for the preprocessor to be able to generate JSON reports after each run, and more,
@@ -34,18 +35,6 @@ async function setupNodeEvents(on, config) {
   );
 
   // Move the previous module.exports block here
-  on("task", {
-     moveFile({ srcPath, destPath }) {
-      try {
-        fs.renameSync(srcPath, destPath);
-        return true;
-      } catch (error) {
-        console.log("Error occurred while moving the file:", error);
-        throw error;
-      }
-    },
-  });
-
   // Make sure to return the config object as it might have been modified by the plugin.
   return config;
 }
@@ -53,11 +42,11 @@ async function setupNodeEvents(on, config) {
 module.exports = defineConfig({
   e2e: {
     specPattern: "**/*.feature",
-    baseUrl: 'https://tms.az-tms-app-q1.tzhealthcare.com/tms/',
+    baseUrl: 'https://tms.az-tms-app-q6.tzhealthcare.com/tms/',
     timeoutVal: 3000000,
     username: 'tmsadmin',
     password: 'Welcome@123',
-    TMSSharedPath: '//az-tms-app-Q1.tzhealthcare.com/C$/TMSSharedFolder/TMS/EAM/Input/',
+    TMSSharedPath: '//az-tms-app-q6.tzhealthcare.com/TMSShareFolder/TMS/EAM/Input/',
     setupNodeEvents,
   },
 });

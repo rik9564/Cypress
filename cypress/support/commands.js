@@ -50,6 +50,6 @@ Cypress.Commands.add('Get', (element) => {
     return cy.get(element, { timeout: timeoutVal })
 })
 
-Cypress.Commands.add('moveFile', (srcPath, destPath) => {
-    return cy.task('moveFile', { srcPath, destPath })
+Cypress.Commands.add('copyFile', (srcPath, destPath) => {
+    return cy.exec('powershell cp ' + srcPath + ' ' + destPath)
 })
