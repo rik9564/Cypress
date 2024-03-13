@@ -1,5 +1,6 @@
 
 var { Given, When, Then } = require('@badeball/cypress-cucumber-preprocessor');
+import * as common from '../../ElementsCommon/ElementsCommon'
 
 When('I Create and upload an EAF File {string} With the Following Details:', (fileName, dataTable) => {
     // Write code here that turns the phrase above into concrete actions
@@ -9,11 +10,11 @@ When('I Create and upload an EAF File {string} With the Following Details:', (fi
     let fileContent = header.join('\t') + '\n'; // Join headers with tab separators
 
     for (const row of dataTable.hashes()) {
-        fileContent += Object.values(row).join('\t') + '\n';
+        fileContent += Object.values(common.generateNewString(row)).join('\t') + '\n';
     }
 
     // Specify the desired file path
-    const filePath = 'cypress\\downloads\\' + fileName;
+    const filePath = 'cypress\\downloads\\' + common.generateNewString(fileName);
     const destLoc = Cypress.config().TMSSharedPath;
 
     // Write the content to the file
@@ -26,8 +27,9 @@ When('I Create and upload an EAF File {string} With the Following Details:', (fi
 
 });
 
-Then('Verify the Job is Set to {string} for File Name as {string} on Job Processing Status Page', (Status, FileName) => {
+Then('Verify the Job is Set to {string} for File Name as {string} on Job Processing Status Page', (Status, fileName) => {
     // Write code here that turns the phrase above into concrete actions
+    const FileName = common.generateNewString(fileName);
     const filePath = Cypress.config().TMSSharedPath + FileName
     const filePath1 = Cypress.config().TMSSharedPath + 'InProgress/' + FileName
     const filePath2 = Cypress.config().TMSSharedPath + 'Processed/' + FileName
@@ -39,7 +41,7 @@ Then('Verify the Job is Set to {string} for File Name as {string} on Job Process
                 const fileExists = result.stdout.trim() === 'True';
                 if (fileExists) {
                     // File found, wait for 10 sec and continue
-                    cy.wait(5000).then(checkFileExists);
+                    cy.wait(20000).then(checkFileExists);
 
                 } else {
                     cy.log('File does not Exsist at: ' + filePath);
@@ -48,7 +50,7 @@ Then('Verify the Job is Set to {string} for File Name as {string} on Job Process
                             const fileExists1 = result.stdout.trim() === 'True';
                             if (fileExists1) {
                                 // File found, wait for 10 sec and continue
-                                cy.wait(5000).then(checkFileExistsInProgress);
+                                cy.wait(20000).then(checkFileExistsInProgress);
 
                             } else {
                                 cy.log('File does not Exsist at: ' + filePath1);
