@@ -27,13 +27,22 @@ When('I Create and upload an EAF File {string} With the Following Details:', (fi
 
 });
 
-Then('Verify the Job is Set to {string} for File Name as {string} on Job Processing Status Page', (Status, fileName) => {
+Then('Verify the Job is Set to {string} for {string} as File Name as {string} on Job Processing Status Page', (Status, fileType, fileName) => {
     // Write code here that turns the phrase above into concrete actions
     const FileName = common.generateNewString(fileName);
     const filePath = Cypress.config().TMSSharedPath + FileName
     const filePath1 = Cypress.config().TMSSharedPath + 'InProgress/' + FileName
     const filePath2 = Cypress.config().TMSSharedPath + 'Processed/' + FileName
-    const filePath3 = Cypress.config().TMSSharedPath + 'Failed/' + FileName
+    cy.ClickOnElement('[title="Job Processing Status"]');
+    cy.selectDropDownValue('[test-id="jobProcessingStatus-txt-ddlJobName"] button', fileType);
+
+    const today = new Date();
+    const dd = String(today.getDate()).padStart(2, '0');
+    const mm = String(today.getMonth()).padStart(2, '0');
+    const yyyy = today.getFullYear();
+    const formattedDate = mm + '/' + dd + '/' + yyyy;
+
+    cy.passDate('#datepicker-1', formattedDate);
 
     cy.then(() => {
         function checkFileExists() {
@@ -82,7 +91,9 @@ Then('Verify the Job is Set to {string} for File Name as {string} on Job Process
 
         checkFileExists();
     });
-
+    cy.ClickOnElement('#btnSearch');
+    cy.ClickOnElement('tr:nth-child(1)>td:nth-child(1)>[title="Expand Details"]');
+    cy.Get('td:contains(' + FileName + ')+td').invoke('text').then((text) => {
+        assert.deepEqual(text, Status);
+    })
 })
-
-

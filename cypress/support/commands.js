@@ -39,6 +39,12 @@ Cypress.Commands.add('SendValue', (element, value) => {
     return cy.Get(element).type(value, { timeout: timeoutVal }).should('have.value', value, { timeout: timeoutVal })
 })
 
+Cypress.Commands.add('passDate', (element, value) => {
+    let list = value.split('/')
+    cy.Get(element).clear()
+    cy.Get(element).type('{home}').type(list[0]).type(list[1]).type(list[2])
+})
+
 Cypress.Commands.add('selectDropDownValue', (element, value) => {
     var timeoutVal = Cypress.config().timeoutVal
     cy.Get(element).should('be.enabled', { timeout: timeoutVal }).click({ timeout: timeoutVal })
@@ -52,4 +58,9 @@ Cypress.Commands.add('Get', (element) => {
 
 Cypress.Commands.add('copyFile', (srcPath, destPath) => {
     return cy.exec('powershell cp ' + srcPath + ' ' + destPath)
+})
+
+Cypress.Commands.add('ExecSQLQuery', (Query, DatabaseName) => {
+    let ConnectionString = 'Server=AZ-TMS-SQL-q6.tzhealthcare.com;Database=' + DatabaseName + ';User Id=pdmadmin;Password=pdmrox;Encrypt=false';
+    return cy.task('executeSqlQuery', { query: Query, connectionString: ConnectionString })
 })

@@ -1,6 +1,7 @@
 const { defineConfig } = require("cypress");
 const webpack = require("@cypress/webpack-preprocessor");
 const fs = require('fs');
+const sql = require('mssql');
 const {
   addCucumberPreprocessorPlugin,
 } = require("@badeball/cypress-cucumber-preprocessor");
@@ -33,6 +34,17 @@ async function setupNodeEvents(on, config) {
       },
     })
   );
+  on('task', {
+    async executeSqlQuery({ query, connectionString }) {
+      try {
+         await sql.connect(connectionString);
+         const result = await sql.query(query);
+         return result; 
+      } catch (err) {
+         throw err; // Let Cypress handle the error
+      }
+    }
+  });
 
   // Move the previous module.exports block here
   // Make sure to return the config object as it might have been modified by the plugin.
