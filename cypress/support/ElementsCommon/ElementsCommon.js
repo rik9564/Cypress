@@ -13,18 +13,20 @@ export function generateNewString(inputFormat) {
                 } else if (element.startsWith("num")) {
                     const numDigits = parseInt(elements[i + 1]);
                     let randomPart = "";
-                    for (let j = 1; j < numDigits; j++) {
+                    for (let j = 1; j <= numDigits; j++) {
                         randomPart += Math.floor(Math.random() * 10); // Generate random digit (0-9)
                     }
                     result += randomPart;
+                    i++;
                 } else if (element.startsWith("alpha")) {
                     const numLetters = parseInt(elements[i + 1]);
                     let randomPart = "";
-                    for (let j = 1; j < numLetters; j++) {
+                    for (let j = 1; j <= numLetters; j++) {
                         const charCode = 65 + Math.floor(Math.random() * 26); // A = 65, Z = 90
                         randomPart += String.fromCharCode(charCode);  // Generate random capital letter
                     }
                     result += randomPart;
+                    i++;
                 }
                 else if (element.startsWith("variable")) {
                     const variable = elements[i + 1];
