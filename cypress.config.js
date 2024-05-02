@@ -4,9 +4,9 @@ const sql = require('mssql');
 const { addCucumberPreprocessorPlugin } = require("@badeball/cypress-cucumber-preprocessor");
 
 async function setupNodeEvents(on, config) {
- await addCucumberPreprocessorPlugin(on, config);
+  await addCucumberPreprocessorPlugin(on, config);
 
- on("file:preprocessor", webpack({
+  on("file:preprocessor", webpack({
     webpackOptions: {
       resolve: {
         extensions: [".ts", ".js"],
@@ -25,9 +25,9 @@ async function setupNodeEvents(on, config) {
         ],
       },
     },
- }));
+  }));
 
- on('task', {
+  on('task', {
     async executeSqlQuery({ query, connectionString }) {
       try {
         await sql.connect(connectionString);
@@ -37,19 +37,23 @@ async function setupNodeEvents(on, config) {
         throw err; // Let Cypress handle the error
       }
     }
- });
+  });
 
- return config;
+  return config;
 }
 
 module.exports = defineConfig({
- e2e: {
+  e2e: {
     specPattern: "**/*.feature",
-    baseUrl: 'https://tms.az-tms-app-q6.tzhealthcare.com/tms/',
+    baseUrl: 'https://tms.az-tms-app-q38.tzhealthcare.com/tms/',
+    dataBaseServer: 'az-tms-sql-q38.tzhealthcare.com',
+    DBUserName: 'pdmadmin',
+    DBPassword: 'elementsrox',
     timeoutVal: 3000000,
     username: 'tmsadmin',
     password: 'Welcome@123',
-    TMSSharedPath: '//az-tms-app-q6.tzhealthcare.com/TMSShareFolder/TMS/EAM/Input/',
+    TMSSharedPath: '\\\\az-tms-app-q38.tzhealthcare.com\\TMSShareFolder\\TMS\\EAM\\Input\\',
+    reporter: 'mochawesome',
     setupNodeEvents,
- },
+  },
 });

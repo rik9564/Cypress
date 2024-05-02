@@ -57,10 +57,13 @@ Cypress.Commands.add('Get', (element) => {
 })
 
 Cypress.Commands.add('copyFile', (srcPath, destPath) => {
-    return cy.exec('powershell cp ' + srcPath + ' ' + destPath)
+    return cy.exec('copy "' + srcPath + '"' + ' ' + '"' + destPath + '"');
 })
 
 Cypress.Commands.add('ExecSQLQuery', (Query, DatabaseName) => {
-    let ConnectionString = 'Server=AZ-TMS-SQL-q6.tzhealthcare.com;Database=' + DatabaseName + ';User Id=pdmadmin;Password=pdmrox;Encrypt=false';
+    let dataBaseServer = Cypress.config().dataBaseServer;
+    let dbUser = Cypress.config().DBUserName;
+    let dbPassword = Cypress.config().DBPassword;
+    let ConnectionString = 'Server=' + dataBaseServer + ';Database=' + DatabaseName + ';User Id=' + dbUser + ';Password=' + dbPassword + ';Encrypt=false';
     return cy.task('executeSqlQuery', { query: Query, connectionString: ConnectionString })
 })

@@ -1,8 +1,9 @@
 var { Given, When, Then, DataTable } = require('@badeball/cypress-cucumber-preprocessor');
+//const { defineConfig } = require("cypress");
 
 Given(`I am Logged in to Elements Application`, () => {
     // [Given] Sets up the initial state of the system.
-
+    cy.clearAllCookies();
     var baseUrl = Cypress.config().baseUrl
     var username = Cypress.config().username
     var password = Cypress.config().password
@@ -75,6 +76,14 @@ When('I Enter Date of Birth : {string}', (DOB) => {
 When('I Select Gender as : {string}', (Gender) => {
     // Write code here that turns the phrase above into concrete actions
     cy.selectDropDownValue('[test-id="DemographicDetailsSex"] button', Gender)
+
+    
+});
+
+When('I am navigated to EAM Reports Page', () => {
+  // Write code here that turns the phrase above into concrete actions
+  cy.ClickOnElement('[test-id="menu-73"]');
+  cy.type('tzhealthacre\tms.install');
 });
 
 

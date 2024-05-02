@@ -14,7 +14,9 @@ When('I Create and upload an EAF File {string} With the Following Details:', (fi
     }
 
     // Specify the desired file path
-    const filePath = 'cypress\\downloads\\' + common.generateNewString(fileName);
+    const userDir = Cypress.config("projectRoot");
+    const generatedFileName = common.generateNewString(fileName);
+    const filePath = userDir + '\\cypress\\downloads\\EAF File\\' + generatedFileName;
     const destLoc = Cypress.config().TMSSharedPath;
 
     // Write the content to the file
@@ -22,7 +24,7 @@ When('I Create and upload an EAF File {string} With the Following Details:', (fi
         if (err) throw err;
         console.log('EAF data saved to:', filePath);
     });
-    cy.copyFile(filePath, destLoc)
+    cy.copyFile(filePath, destLoc);
 
 
 });
