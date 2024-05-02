@@ -54,6 +54,7 @@ module.exports = defineConfig({
     password: 'Welcome@123',
     TMSSharedPath: '\\\\az-tms-app-q38.tzhealthcare.com\\TMSShareFolder\\TMS\\EAM\\Input\\',
     reporter: 'mochawesome',
+    video: true,
     setupNodeEvents,
   },
 });
